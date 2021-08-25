@@ -14,6 +14,7 @@ Teammates of this project:
 3. Garcia Eduardo | code_Garcia
 4. Ortiz Jonathan | code_Jonathan
 5. Vera Alondra | code_Vera
+6. Hector Zavala | code_Zavala
 
 Organitation GitHub:
 
