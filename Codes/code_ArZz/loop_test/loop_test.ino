@@ -1,12 +1,12 @@
 #include <Wire.h> 
 #include <LiquidCrystal_I2C.h>
-// #include <DHT.h>
+#include <DHT.h>
 #include <MQ135.h>
 #include <SPI.h>
 #include <MFRC522.h>
 
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-//DHT dht(2, DHT11);
+DHT dht(2, DHT11);
 MQ135 gasSensor = MQ135(0);
 MFRC522 mfrc522(10, 9); // SS_PIN, RST_PIN
 
@@ -41,45 +41,68 @@ void setup()
 {
   Serial.begin(9600);
   SPI.begin();
-//  dht.begin();
+  dht.begin();
   mfrc522.PCD_Init();
   lcd.init();
   lcd.backlight();
   lcd.createChar (0,N);
+  Serial.println("Iniciado Correctamente");
 }
 
 void loop()
 {
-    lcd.setCursor(0, 0);
-    lcd.print("   Scan ID");
-    lcd.setCursor(0, 1);
-    lcd.print("   Locked");
 
-  // Detectar tarjeta
-  if (mfrc522.PICC_IsNewCardPresent())
-  {
-    //Seleccionamos una tarjeta
-    if (mfrc522.PICC_ReadCardSerial())
-    {
-      // Comparar ID con las claves válidas
-      if (isEqualArray(mfrc522.uid.uidByte, validKey1, 1))
-        Serial.println("Tarjeta valida");
-      else
-        Serial.println("Tarjeta invalida");
-      // Finalizar lectura actual
-      mfrc522.PICC_HaltA();
+    if ((user) == (true)){
+    login_true();
     }
-  }
-  delay(250);
 
+    else{
+
+      lcd.setCursor(0, 0);
+      lcd.print("    Scan  ID");
+      lcd.setCursor(0, 1);
+      lcd.print("     Locked");
+
+      // Detectar tarjeta
+      if (mfrc522.PICC_IsNewCardPresent())
+      {
+        //Seleccionamos una tarjeta
+        if (mfrc522.PICC_ReadCardSerial())
+        {
+          // Comparar ID con las claves válidas
+          if (isEqualArray(mfrc522.uid.uidByte, validKey1, 1))
+          {
+            Serial.println("Tarjeta valida");
+            user = true;
+            lcd.setCursor(0, 0);
+            lcd.print("  Successfull");
+            lcd.setCursor(0, 1);
+            lcd.print("     Access");
+            delay(3000);
+            lcd.clear();
+            login_true();
+          }
+
+          else{
+            login_false();
+            Serial.println("Tarjeta invalida");
+          }
+          // Finalizar lectura actual
+          mfrc522.PICC_HaltA();
+        }
+      }
+      delay(250);
+    }
 }
 
 void login_false()
 {
     lcd.setCursor(0, 0);
-    lcd.print("   Scan ID");
+    lcd.print("    Scan  ID");
     lcd.setCursor(0, 1);
-    lcd.print("   Access Denied");
+    lcd.print(" Access  Denied");
+    delay(3000);
+    lcd.clear();
 }
 
 void login_true()
@@ -92,23 +115,35 @@ void login_true()
   lcd.print(ppm*100, 0);
   lcd.print("ppm");
   
-  //float h = dht.readHumidity();
-  //float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
  
-  //if (isnan(h) || isnan(t)) 
- //{
-   //Serial.println("Error obteniendo los datos del sensor DHT11");
-   //return;
- //}
+  if (isnan(h) || isnan(t)) 
+  {
+    Serial.println("Error obteniendo los datos del sensor DHT11");
+    return;
+  }
   
-  //float hic = dht.computeHeatIndex(t, h, false);
+  float hic = dht.computeHeatIndex(t, h, false);
 
- lcd.setCursor(0,1);
- lcd.print("T:");
- //lcd.print(t, 0);
- lcd.write (byte (0));
- lcd.print("C");
- lcd.print("   H:");
- //lcd.print(h, 1);
- lcd.print("%");
+  lcd.setCursor(0,1);
+  lcd.print("T:");
+  lcd.print(t, 0);
+  lcd.write (byte (0));
+  lcd.print("C");
+  lcd.print("   H:");
+  lcd.print(h, 1);
+  lcd.print("%");
+  
+  if (mfrc522.PICC_IsNewCardPresent() == true)
+  {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("    Scan  ID");
+    lcd.setCursor(0, 1);
+    lcd.print(" Access  Locked");
+    user = false;
+    delay(3000);
+    lcd.clear();
+  }
 }
