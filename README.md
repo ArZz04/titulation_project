@@ -1,11 +1,11 @@
 # titulation_project
- This repository is a titulation project in CECyTEJ Tesistan
- The code of the project is published in github for an easier access to code by teammates.
+This repository is a titulation project in CECyTEJ Tesistan
+The code of the project is published in github for an easier access to code by teammates.
 
- Information:
+Information:
 
- Carrer: Mechatronic 
- Grade: 5to|6to semester
+Carrer: Mechatronic 
+Grade: 5to|6to semester
 
 Teammates of this project:
 
