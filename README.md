@@ -7,13 +7,18 @@ Information:
 Carrer: Mechatronic 
 Grade: 5to|6to semester
 
+We will create an application for android initially where we can configure 
+and link more devices for the lock as well as configure the password, name, 
+among others of the bluetooth device.
+[EXAMPLE DESIGN APP](https://arzz-04.github.io/titulation_project/)
+
 Teammates of this project:
 
-1. Arvizu Juan | code_ArZz
+1. Arvizu Juan       | code_ArZz
 2. Barrios Christian | code_Barrios
-3. Garcia Eduardo | code_Garcia
-4. Ortiz Jonathan | code_Jonathan
-5. Vera Alondra | code_Vera
+3. Garcia Eduardo    | code_Garcia
+4. Ortiz Jonathan    | code_Jonathan
+5. Vera Alondra      | code_Vera
 
 Organitation GitHub:
 
