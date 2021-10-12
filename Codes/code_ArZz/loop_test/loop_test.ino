@@ -6,7 +6,7 @@
 #include <MFRC522.h>
 
 LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
-//DHT dht(2, DHT11);
+DHT dht(2, DHT11);
 MQ135 gasSensor = MQ135(0);
 MFRC522 mfrc522(10, 9); // SS_PIN, RST_PIN
 
@@ -41,7 +41,7 @@ void setup()
 {
   Serial.begin(9600);
   SPI.begin();
-//  dht.begin();
+  dht.begin();
   mfrc522.PCD_Init();
   lcd.init();
   lcd.backlight();
@@ -92,16 +92,16 @@ void login_true()
   lcd.print(ppm*100, 0);
   lcd.print("ppm");
   
-  //float h = dht.readHumidity();
-  //float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
  
-  //if (isnan(h) || isnan(t)) 
- //{
-   //Serial.println("Error obteniendo los datos del sensor DHT11");
-   //return;
- //}
+  if (isnan(h) || isnan(t)) 
+ {
+   Serial.println("Error obteniendo los datos del sensor DHT11");
+   return;
+ }
   
-  //float hic = dht.computeHeatIndex(t, h, false);
+  float hic = dht.computeHeatIndex(t, h, false);
 
  lcd.setCursor(0,1);
  lcd.print("T:");
