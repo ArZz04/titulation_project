@@ -24,7 +24,6 @@ bool isEqualArray(byte* arrayA, byte* arrayB, int length)
   return true;
 }
 
-
 byte N[8] = 
 {
 B00000,
