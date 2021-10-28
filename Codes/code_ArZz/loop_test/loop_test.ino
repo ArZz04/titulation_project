@@ -24,6 +24,7 @@ bool isEqualArray(byte* arrayA, byte* arrayB, int length)
   return true;
 }
 
+
 byte N[8] = 
 {
 B00000,
@@ -63,10 +64,8 @@ void loop()
       // Comparar ID con las claves válidas
       if (isEqualArray(mfrc522.uid.uidByte, validKey1, 1))
         Serial.println("Tarjeta valida");
-        login_true()
       else
         Serial.println("Tarjeta invalida");
-        login_false()
       // Finalizar lectura actual
       mfrc522.PICC_HaltA();
     }
@@ -97,19 +96,18 @@ void login_true()
   float t = dht.readTemperature();
  
   if (isnan(h) || isnan(t)) 
- {
-   Serial.println("Error obteniendo los datos del sensor DHT11");
+  {
+    Serial.println("Error obteniendo los datos del sensor DHT11");
    return;
- }
-  
-  float hic = dht.computeHeatIndex(t, h, false);
+   }
+   float hic = dht.computeHeatIndex(t, h, false);
 
  lcd.setCursor(0,1);
  lcd.print("T:");
- lcd.print(t, 0);
+ //lcd.print(t, 0);
  lcd.write (byte (0));
  lcd.print("C");
  lcd.print("   H:");
- lcd.print(h, 1);
+ //lcd.print(h, 1);
  lcd.print("%");
 }
